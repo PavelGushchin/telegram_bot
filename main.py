@@ -16,7 +16,7 @@ from telegram.ext import (
 )
 
 import secret_token
-import Movie
+import imdb_parser
 import logging
 
 
@@ -43,17 +43,17 @@ def movie(update: Update, context: CallbackContext) -> None:
     bot = context.bot
     chat_id = update.effective_chat.id
 
-    movie_info = Movie.get()
+    movie = imdb_parser.get_movie()
 
     # Send info about the movie to user
     bot.send_message(
         chat_id,
-        f"<b><u>Title</u></b>: {movie_info['title']}\n\n<b><u>Description</u></b>: {movie_info['description']}\n\n<b><u>Genre</u></b>: {movie_info['genre']}\n\n<b><u>Country</u></b>: {movie_info['country']}\n\n",
+        f"<b><u>Title</u></b>: {movie['title']}\n\n<b><u>Year</u></b>: {movie['year']}\n\n<b><u>Description</u></b>: {movie['description']}\n\n<b><u>Duration</u></b>: {movie['duration']}\n\n<b><u>Genre</u></b>: {movie['genre']}\n\n<b><u>IMDB rating</u></b>: {movie['rating']}",
         parse_mode=ParseMode.HTML
     )
 
     # Send movie poster to user
-    bot.send_photo(chat_id, movie_info["img"])
+    bot.send_photo(chat_id, movie["poster"])
 
     # Create keyboard and send it to user
     keyboard = InlineKeyboardMarkup([
