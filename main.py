@@ -143,6 +143,18 @@ def message_from_user(update: Update, context: CallbackContext) -> None:
     help(update, context)
 
 
+def error(update: Update, context: CallbackContext) -> None:
+    """Log the error and send a telegram message to notify the user"""
+    logger = logging.getLogger(__name__)
+    logger.error(msg="Bot's error:", exc_info=context.error)
+
+    # Send a message to user
+    update.message.reply_text("Something went wrong... An error occurred!")
+
+    # Send "Scared" sticker
+    update.message.reply_sticker("CAACAgIAAxkBAAICuGDr-Dq3lbUolukRs6F46IUMsqE4AAJ7DQACK-uISrOE001rp6qDIAQ")
+
+
 def main() -> None:
     # Create the Updater and pass it your bot's token
     updater = Updater(secret_token.TOKEN)
@@ -155,6 +167,7 @@ def main() -> None:
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CallbackQueryHandler(button_clicked))
     dp.add_handler(MessageHandler(Filters.all, message_from_user))
+    dp.add_error_handler(error)
 
     # Run the bot
     updater.start_polling()
