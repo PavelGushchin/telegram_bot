@@ -169,11 +169,17 @@ def error(update: Update, context: CallbackContext) -> None:
     logger = logging.getLogger(__name__)
     logger.error(msg="Bot's error:", exc_info=context.error)
 
-    # Send a message to user
-    update.message.reply_text("Something went wrong... An error occurred!")
-
     # Send "Scared" sticker
-    update.message.reply_sticker("CAACAgIAAxkBAAICuGDr-Dq3lbUolukRs6F46IUMsqE4AAJ7DQACK-uISrOE001rp6qDIAQ")
+    context.bot.send_sticker(
+        update.effective_chat.id,
+        "CAACAgIAAxkBAAICuGDr-Dq3lbUolukRs6F46IUMsqE4AAJ7DQACK-uISrOE001rp6qDIAQ"
+    )
+
+    # Send a message to the user about this error
+    context.bot.send_message(
+        update.effective_chat.id,
+        "Something went wrong... An error occurred!"
+    )
 
 
 def main() -> None:
