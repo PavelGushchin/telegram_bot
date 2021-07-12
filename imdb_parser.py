@@ -23,7 +23,17 @@ def get_movie():
 
 
 def get_series():
-    pass
+    series = choose_randomly(TOP_250_SERIES_LIST)
+    additional_info = get_info(series["url"])
+
+    return {
+        "title": series["title"],
+        "year": series["year"],
+        "poster": series["poster"],
+        "rating": series["rating"],
+        "description": additional_info["description"],
+        "genre": additional_info["genre"],
+    }
 
 
 def choose_randomly(url):
@@ -60,7 +70,8 @@ def get_info(movie_url):
     for genre in movie_page.find_all(class_=re.compile(r"^GenresAndPlot__GenreChip")):
         genres.append(genre.span.string)
 
-    duration = movie_page.find(class_=re.compile("^TitleBlock__TitleMetaDataContainer")).find("li").find_next_sibling("li").find_next_sibling("li").string
+    duration = movie_page.find(class_=re.compile("^TitleBlock__TitleMetaDataContainer")).find("li").find_next_sibling(
+        "li").find_next_sibling("li").string
 
     return {
         "description": desc,

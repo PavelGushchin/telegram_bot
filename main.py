@@ -69,7 +69,32 @@ def movie(update: Update, context: CallbackContext) -> None:
 
 def series(update: Update, context: CallbackContext) -> None:
     """Function for /series command. It suggests an interesting TV series for user"""
-    pass
+
+    bot = context.bot
+    chat_id = update.effective_chat.id
+
+    series = imdb_parser.get_series()
+
+    # Send info about the series to user
+    bot.send_message(
+        chat_id,
+        f"<b><u>Title</u></b>: {series['title']}\n\n<b><u>Year</u></b>: {series['year']}\n\n<b><u>Description</u></b>: {series['description']}\n\n<b><u>Genre</u></b>: {series['genre']}\n\n<b><u>IMDB rating</u></b>: {series['rating']}",
+        parse_mode=ParseMode.HTML
+    )
+
+    # Send series poster to user
+    bot.send_photo(chat_id, series["poster"])
+
+    # Create keyboard and send it to user
+    keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("I like it", callback_data="like"),
+            InlineKeyboardButton("Next", callback_data="next_series"),
+            InlineKeyboardButton("Stop", callback_data="stop")
+        ],
+    ])
+
+    bot.send_message(chat_id, "Choose please:", reply_markup=keyboard)
 
 
 def button_clicked(update: Update, context: CallbackContext) -> None:
@@ -126,7 +151,7 @@ def main() -> None:
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(CommandHandler('movie', movie))
-    dp.add_handler(CommandHandler('series', movie))
+    dp.add_handler(CommandHandler('series', series))
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CallbackQueryHandler(button_clicked))
     dp.add_handler(MessageHandler(Filters.all, message_from_user))
