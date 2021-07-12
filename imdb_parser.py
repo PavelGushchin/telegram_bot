@@ -7,7 +7,7 @@ TOP_250_MOVIES_LIST = "https://www.imdb.com/chart/top"
 TOP_250_SERIES_LIST = "https://www.imdb.com/chart/toptv"
 
 
-def get_movie():
+def get_movie() -> dict:
     movie = choose_randomly(TOP_250_MOVIES_LIST)
     additional_info = get_info(movie["url"])
 
@@ -22,7 +22,7 @@ def get_movie():
     }
 
 
-def get_series():
+def get_series() -> dict:
     series = choose_randomly(TOP_250_SERIES_LIST)
     additional_info = get_info(series["url"])
 
@@ -36,7 +36,7 @@ def get_series():
     }
 
 
-def choose_randomly(url):
+def choose_randomly(url) -> dict:
     page = BeautifulSoup(
         requests.get(url).text,
         "lxml"
@@ -45,9 +45,9 @@ def choose_randomly(url):
     movies_on_page = page.find_all(class_="titleColumn")
     random_movie = movies_on_page[random.randrange(0, 250)]
 
-    # Retrieving poster url. We need to strip (or cut) some substring from there
+    # Retrieving a poster's url. We need to strip (or cut) some substring from there
     poster_full_url = random_movie.parent.find(class_="posterColumn").a.img["src"]
-    poster_stripped = re.sub(r"(@)\..+(.jpg$)", r"\g<1>\g<2>", poster_full_url)
+    poster_stripped = re.sub(r"\._.+(.jpg$)", r"\g<1>", poster_full_url)
 
     return {
         "url": "https://www.imdb.com" + random_movie.a["href"],
@@ -58,7 +58,7 @@ def choose_randomly(url):
     }
 
 
-def get_info(movie_url):
+def get_info(movie_url) -> dict:
     movie_page = BeautifulSoup(
         requests.get(movie_url).text,
         "lxml"
@@ -70,8 +70,10 @@ def get_info(movie_url):
     for genre in movie_page.find_all(class_=re.compile(r"^GenresAndPlot__GenreChip")):
         genres.append(genre.span.string)
 
-    duration = movie_page.find(class_=re.compile("^TitleBlock__TitleMetaDataContainer")).find("li").find_next_sibling(
-        "li").find_next_sibling("li").string
+    duration = ""
+    metadata = movie_page.find(class_=re.compile("^TitleBlock__TitleMetaDataContainer")).find("li")
+    if metadata:
+        duration = metadata.find_next_sibling("li").find_next_sibling("li").string
 
     return {
         "description": desc,
