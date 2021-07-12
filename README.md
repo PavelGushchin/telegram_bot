@@ -1,9 +1,18 @@
 # My bot for Telegram
+
 ## Purpose of this bot
 If you don't know what movie to watch, you can ask the bot, and it will suggest you an interesting movie (or TV series) to watch.
 
-## How does the bot work?
+## How does bot work?
 The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randomly chooses one movie from there and gives it to you as a suggestion. 
+
+## What commands does bot understand?
+```text
+/start - Say "Hello"
+/movie - Suggest an interesting movie
+/series - Suggest an interesting TV series
+/help - Show help message
+```
 
 ## How to run this bot?
 First, you need to create a new bot in Telegram and receive an API Token for it.
