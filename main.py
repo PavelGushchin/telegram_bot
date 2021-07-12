@@ -43,19 +43,28 @@ def movie(update: Update, context: CallbackContext) -> None:
     bot = context.bot
     chat_id = update.effective_chat.id
 
+    # Send the message, which indicates that our bot has started working
+    bot.send_message(chat_id, "Wait a second...")
+
+    # Parse IMDB "Top 250 Movies" page
     movie = imdb_parser.get_movie()
 
-    # Send info about the movie to user
+    # Send information about chosen movie to the user
     bot.send_message(
         chat_id,
-        f"<b><u>Title</u></b>: {movie['title']}\n\n<b><u>Year</u></b>: {movie['year']}\n\n<b><u>Description</u></b>: {movie['description']}\n\n<b><u>Duration</u></b>: {movie['duration']}\n\n<b><u>Genre</u></b>: {movie['genre']}\n\n<b><u>IMDB rating</u></b>: {movie['rating']}",
+        f"<b><u>Title</u></b>: {movie['title']}\n\n"
+        f"<b><u>Year</u></b>: {movie['year']}\n\n"
+        f"<b><u>Description</u></b>: {movie['description']}\n\n"
+        f"<b><u>Duration</u></b>: {movie['duration']}\n\n"
+        f"<b><u>Genre</u></b>: {movie['genre']}\n\n"
+        f"<b><u>IMDB rating</u></b>: {movie['rating']}",
         parse_mode=ParseMode.HTML
     )
 
-    # Send movie poster to user
+    # Send movie poster to the user
     bot.send_photo(chat_id, movie["poster"])
 
-    # Create keyboard and send it to user
+    # Create keyboard and send it to the user
     keyboard = InlineKeyboardMarkup([
         [
             InlineKeyboardButton("I like it", callback_data="like"),
@@ -73,19 +82,27 @@ def series(update: Update, context: CallbackContext) -> None:
     bot = context.bot
     chat_id = update.effective_chat.id
 
+    # Send the message, which indicates that our bot has started working
+    bot.send_message(chat_id, "Wait a second...")
+
+    # Parse IMDB "Top 250 Series" page
     series = imdb_parser.get_series()
 
-    # Send info about the series to user
+    # Send information about chosen movie to the user
     bot.send_message(
         chat_id,
-        f"<b><u>Title</u></b>: {series['title']}\n\n<b><u>Year</u></b>: {series['year']}\n\n<b><u>Description</u></b>: {series['description']}\n\n<b><u>Genre</u></b>: {series['genre']}\n\n<b><u>IMDB rating</u></b>: {series['rating']}",
+        f"<b><u>Title</u></b>: {series['title']}\n\n"
+        f"<b><u>Year</u></b>: {series['year']}\n\n"
+        f"<b><u>Description</u></b>: {series['description']}\n\n"
+        f"<b><u>Genre</u></b>: {series['genre']}\n\n"
+        f"<b><u>IMDB rating</u></b>: {series['rating']}",
         parse_mode=ParseMode.HTML
     )
 
-    # Send series poster to user
+    # Send series poster to the user
     bot.send_photo(chat_id, series["poster"])
 
-    # Create keyboard and send it to user
+    # Create keyboard and send it to the user
     keyboard = InlineKeyboardMarkup([
         [
             InlineKeyboardButton("I like it", callback_data="like"),
@@ -126,7 +143,11 @@ def help(update: Update, context: CallbackContext) -> None:
 
     # Send help message
     update.message.reply_text(
-        "What can I do:\n\n  /start - say 'hello'\n\n  /movie - suggest an interesting movie\n\n  /series - suggest an interesting TV series\n\n  /help - show help message"
+        f"What can I do:\n\n"
+        f"  /start - say 'hello'\n\n"
+        f"  /movie - suggest an interesting movie\n\n"
+        f"  /series - suggest an interesting TV series\n\n"
+        f"  /help - show help message"
     )
 
 
