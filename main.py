@@ -2,9 +2,11 @@
 
 from telegram import (
     Update,
+    ParseMode,
     InlineKeyboardMarkup,
     InlineKeyboardButton,
-    ParseMode,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
 )
 from telegram.ext import (
     Updater,
@@ -13,22 +15,25 @@ from telegram.ext import (
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
+    InlineQueryHandler,
 )
+from uuid import uuid4
 
 import secret_token
 import imdb_parser
 import logging
 
 
-# Configure logging
+# Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO
 )
+logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext) -> None:
-    """Function for /start command"""
+    """Function for '/start' command"""
 
     # Send "Hello" sticker
     update.message.reply_sticker("CAACAgIAAxkBAAIBdWDmwUbnbcGuw7gMeJ_JF7QQq0uaAAKZDAACP1QBSs-TDHlrwSKUIAQ")
@@ -38,7 +43,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def movie(update: Update, context: CallbackContext) -> None:
-    """Function for /movie command. It suggests an interesting movie for user"""
+    """Function for '/movie' command. It suggests an interesting movie for user"""
 
     bot = context.bot
     chat_id = update.effective_chat.id
@@ -77,7 +82,7 @@ def movie(update: Update, context: CallbackContext) -> None:
 
 
 def series(update: Update, context: CallbackContext) -> None:
-    """Function for /series command. It suggests an interesting TV series for user"""
+    """Function for '/series' command. It suggests an interesting TV series for user"""
 
     bot = context.bot
     chat_id = update.effective_chat.id
@@ -139,7 +144,7 @@ def button_clicked(update: Update, context: CallbackContext) -> None:
 
 
 def help(update: Update, context: CallbackContext) -> None:
-    """Function for /help command"""
+    """Function for '/help' command"""
 
     # Send help message
     update.message.reply_text(
@@ -164,9 +169,31 @@ def message_from_user(update: Update, context: CallbackContext) -> None:
     help(update, context)
 
 
+def inline(update: Update, context: CallbackContext) -> None:
+    """Function for handling inline queries from user"""
+
+    random_movie = imdb_parser.choose_randomly(imdb_parser.TOP_250_MOVIES_LIST)
+    random_series = imdb_parser.choose_randomly(imdb_parser.TOP_250_SERIES_LIST)
+
+    context.bot.answer_inline_query(
+        update.inline_query.id,
+        [
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Suggest a movie",
+                input_message_content=InputTextMessageContent(random_movie["url"])
+            ),
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Suggest a TV series",
+                input_message_content=InputTextMessageContent(random_series["url"])
+            ),
+        ]
+    )
+
+
 def error(update: Update, context: CallbackContext) -> None:
     """Log the error and send a telegram message to notify the user"""
-    logger = logging.getLogger(__name__)
     logger.error(msg="Bot's error:", exc_info=context.error)
 
     # Send "Scared" sticker
@@ -194,6 +221,7 @@ def main() -> None:
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CallbackQueryHandler(button_clicked))
     dp.add_handler(MessageHandler(Filters.all, message_from_user))
+    dp.add_handler(InlineQueryHandler(inline))
     dp.add_error_handler(error)
 
     # Run the bot
