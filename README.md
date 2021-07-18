@@ -19,7 +19,7 @@ First, you need to create a new bot in Telegram and receive an API Token for it.
 
 To do that, you have to talk to BotFather and follow a few simple steps. Google it.
 
-Then paste your API Token to "secret_token.py" file:
+Then you need to paste your API Token to "secret_token.py" file:
 
 ```python
 # "secret_token.py" file
@@ -41,7 +41,7 @@ pip3 install requests
 pip3 install lxml
 ```
 
-And that's all, now you can run the bot:
+That's all! Now you can run the bot:
 ```shell
 python3 main.py
 ```
