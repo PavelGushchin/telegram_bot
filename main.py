@@ -43,7 +43,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def movie(update: Update, context: CallbackContext) -> None:
-    """Function for '/movie' command. It advises an interesting movie for user"""
+    """Function for '/movie' command"""
 
     bot = context.bot
     chat_id = update.effective_chat.id
@@ -82,7 +82,7 @@ def movie(update: Update, context: CallbackContext) -> None:
 
 
 def series(update: Update, context: CallbackContext) -> None:
-    """Function for '/series' command. It advises an interesting TV series for user"""
+    """Function for '/series' command"""
 
     bot = context.bot
     chat_id = update.effective_chat.id
@@ -150,14 +150,14 @@ def help(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
         f"What can I do:\n\n"
         f"  /start - say 'hello'\n\n"
-        f"  /movie - advise an interesting movie\n\n"
-        f"  /series - advise an interesting TV series\n\n"
+        f"  /movie - recommend an interesting movie\n\n"
+        f"  /series - recommend an interesting TV series\n\n"
         f"  /help - show help message"
     )
 
 
 def message_from_user(update: Update, context: CallbackContext) -> None:
-    """Function for replying to user, which sent any message to this bot"""
+    """Function for replying to user who sent a message to this bot"""
 
     # Send "I don't understand you" message
     update.message.reply_text("I don't understand you!")

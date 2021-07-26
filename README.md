@@ -1,7 +1,7 @@
 # Movie Adviser bot for Telegram
 
 ## Purpose of this bot
-If you don't know what movie to watch, you can ask the bot, and it will advise you an interesting movie (or TV series) to watch.
+If you don't know what movie to watch, you can ask the bot, and it will recommend you an interesting movie (or TV series) to watch.
 
 ## How does bot work?
 The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randomly chooses one movie from there and gives it to you as a recommendation. 
@@ -9,8 +9,8 @@ The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randoml
 ## What commands does bot understand?
 ```text
 /start - Say "Hello"
-/movie - Advise an interesting movie
-/series - Advise an interesting TV series
+/movie - Recommend an interesting movie
+/series - Recommend an interesting TV series
 /help - Show help message
 ```
 
@@ -21,14 +21,13 @@ The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randoml
 ![Series command](screenshots/series_command.jpg)
 
 ## How to run this bot?
-First, you need to create a new bot in Telegram and receive an API Token for it.
+First, you need to create a new bot in Telegram.
 
-To do that, you have to talk to BotFather and follow a few simple steps. Google it.
+To do that you have to talk to BotFather and follow a few simple steps described here - https://core.telegram.org/bots#6-botfather
 
-Then you need to paste your API Token to "secret_token.py" file:
+ After that you have to paste your bot's API Token to "secret_token.py" file:
 
 ```python
-# "secret_token.py" file
 TOKEN = 'YOUR_API_TOKEN'
 ```
 
