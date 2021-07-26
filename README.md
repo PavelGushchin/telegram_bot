@@ -1,10 +1,10 @@
-# Movie Adviser Bot for Telegram
+# Movie Adviser bot for Telegram
 
 ## Purpose of this bot
 If you don't know what movie to watch, you can ask the bot, and it will advise you an interesting movie (or TV series) to watch.
 
 ## How does bot work?
-The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randomly chooses one movie from there and gives it to you as advice. 
+The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randomly chooses one movie from there and gives it to you as a recommendation. 
 
 ## What commands does bot understand?
 ```text
@@ -13,6 +13,13 @@ The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randoml
 /series - Advise an interesting TV series
 /help - Show help message
 ```
+
+## Screenshots
+### "/movie" command
+![Movie command](screenshots/movie_command.jpg)
+
+### "/series" command
+![Series command](screenshots/series_command.jpg)
 
 ## How to run this bot?
 First, you need to create a new bot in Telegram and receive an API Token for it.
