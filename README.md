@@ -15,10 +15,9 @@ The bot parses "Top 250 Movies" (or "Top 250 TV Series") from IMDB site, randoml
 ```
 
 ## Screenshots
-### "/movie" command
 ![Movie command](screenshots/movie_command.jpg)
 
-### "/series" command
+
 ![Series command](screenshots/series_command.jpg)
 
 ## How to run this bot?
